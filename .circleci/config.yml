@@ -20,7 +20,7 @@ jobs:
             echo ${Google_Service_Key} > /tmp/sa_key.json
             gcloud auth activate-service-account --key-file=/tmp/sa_key.json
             rm /tmp/sa_key.json
-            gcloud config set project balmy-moonlight-427601-i1
+            gcloud config set project cicdapp123
             gcloud config set compute/zone us-central
             gcloud app create --region us-central1 
             gcloud --quiet app deploy -v v01
