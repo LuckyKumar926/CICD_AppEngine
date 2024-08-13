@@ -3,13 +3,13 @@ jobs:
   build_and_deploy:     
     docker:
         - image: google/cloud-sdk:slim
-    steps:
-      - checkout
-      - run:
-          name: Install Sphinx
-          command: |
-            apt install -y python3-pip && \
-            python3 -m pip install -r requirements.txt
+    # steps:
+    #   - checkout
+    #   - run:
+    #       name: Install Sphinx
+    #       command: |
+    #         apt install -y python3-pip && \
+    #         python3 -m pip install -r requirements.txt
       # - run:
       #     name: Make Docs
       #     command: |
@@ -22,7 +22,7 @@ jobs:
             rm /tmp/sa_key.json
             gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
             gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
-            gcloud --quiet app deploy
+            gcloud --quiet app deploy -v v01
 
 workflows:
   version: 2
