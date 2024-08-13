@@ -17,7 +17,7 @@ jobs:
       - run: 
           name: Deploy Docs
           command: |
-            echo ${Google_Service_Key} > /tmp/sa_key.json
+            echo ${Google_Service_key} > /tmp/sa_key.json
             gcloud auth activate-service-account --key-file=/tmp/sa_key.json
             rm /tmp/sa_key.json
             gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
