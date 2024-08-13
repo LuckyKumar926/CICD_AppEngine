@@ -21,6 +21,7 @@ jobs:
             gcloud auth activate-service-account --key-file=/tmp/sa_key.json
             rm /tmp/sa_key.json
             gcloud config set project ${GOOGLE_PROJECT_ID} --quiet
+            gcloud config set compute/zone ${GOOGLE_COMPUTE_ZONE} --quiet
             gcloud --quiet app deploy -v v01
 
 workflows:
