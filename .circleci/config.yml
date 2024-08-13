@@ -11,24 +11,38 @@ jobs:
     steps:
       - checkout
       - python/install-packages
-      - run:
-          name: Run tests
-          command: pytest --junitxml=junit.xml || ((($? == 5)) && echo 'Did not find any tests to run.')
-      - store_test_results:
-          path: junit.xml
-  deploy:
-    # This is an example deploy job, not actually used by the workflow
-    docker:
-      - image: cimg/base:stable
-    steps:
-      # Replace this with steps to deploy to users
-      - run:
-          name: deploy
-          command: '#e.g. ./deploy.sh'
-workflows:
-  build-and-test:
-    jobs:
-      - test-python
-    # - deploy:
-    #     requires:
-    #       - test-python
+        - run:
+            name: install
+            command: |
+            apt install -y python3-pip && \
+            python3 -m pip install -r requirements.txt
+
+        - run: 
+          name: Deploy Docs
+          command: |
+            echo ${GCLOUD_SERVICE_KEY} > /tmp/sa_key.json
+            gcloud auth activate-service-account --key-file=/tmp/sa_key.json
+            rm /tmp/sa_key.json
+            gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+            gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+            gcloud --quiet app deploy
+      #     name: Run tests
+      #     command: pytest --junitxml=junit.xml || ((($? == 5)) && echo 'Did not find any tests to run.')
+      # - store_test_results:
+      #     path: junit.xml
+#   deploy:
+#     # This is an example deploy job, not actually used by the workflow
+#     docker:
+#       - image: cimg/base:stable
+#     steps:
+#       # Replace this with steps to deploy to users
+#       - run:
+#           name: deploy
+#           command: '#e.g. ./deploy.sh'
+# workflows:
+#   build-and-test:
+#     jobs:
+#       - test-python
+#     # - deploy:
+#     #     requires:
+#     #       - test-python
