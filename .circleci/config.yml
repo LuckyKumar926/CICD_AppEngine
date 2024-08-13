@@ -22,6 +22,7 @@ jobs:
             rm /tmp/sa_key.json
             gcloud config set project balmy-moonlight-427601-i1
             gcloud config set compute/zone us-central
+            gcloud projects add-iam-policy-binding balmy-moonlight-427601-i1 --member=cicdappengine@balmy-moonlight-427601-i1.iam.gserviceaccount.com --role=roles/appengine.appAdmin
             gcloud app create --region=us-central1
             gcloud --quiet app deploy -v v01
 
